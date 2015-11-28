@@ -1,6 +1,8 @@
 from random import randint
 import os
+import sys
 import pygame
+from pygame.locals import *
 
 ancho_logo, ancho_puntaje, ancho_reinicio, ancho_tubo, ancho_ventana = 200, 100, 150, 50, 360
 alto_fondo, alto_tubo, alto_tubo_min, alto_ventana = 450, 300, 50, 550
