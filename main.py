@@ -1,10 +1,8 @@
 #! /usr/bin/python
 
 __author__ = "Dj_System"
-__date__ = "$19/08/2015 10:54:15 AM$"
+__date__ = "$//::$"
 
-import sys
-from pygame.locals import *
 from classes import *
 
 
