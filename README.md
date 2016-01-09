@@ -1,1 +1,1 @@
-This Flappy-Bird Project is based in flappybird.io
+This Flappy-Bird Project is based in flappybird.io made in Python 2.7.x
