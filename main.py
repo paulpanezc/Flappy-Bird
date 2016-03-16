@@ -1,9 +1,27 @@
 #! /usr/bin/python
 
 __author__ = "Dj_System"
-__date__ = "$//::$"
+__date__ = "$// :: $"
 
 from classes import *
+
+cero = Numero(((186, 80), (177, 80), (177, 130), (207, 130), (207, 80), (186, 80), (186, 122), (198, 122), 
+                  (198, 88), (186, 88)), 
+                  ((189, 77), (174, 77), (174, 133), (210, 133), (210, 77), (189, 77), (189, 119), (195, 119), 
+				       (195, 91), (189, 91)))
+uno = Numero(((184.5, 80), (184.5, 95), (189.5, 95), (189.5, 130), (199.5, 130), (199.5, 80)), 
+                 ((181.5, 77), (181.5, 98), (186.5, 95), (186.5, 133), (202.5, 133), (202.5, 77)))
+#dos = Numero()
+#tres = Numero()
+cuatro = Numero(((175, 100), (187, 100), (187, 120), (192, 120), (192, 100), (205, 100), (205, 150), (192, 150), 
+                    (192, 137), (175, 137)), 
+                    ((173, 98), (208, 98), (208, 153), (190, 153), (190, 140), (173, 140)))
+#cinco = Numero()
+#seis = Numero()
+siete = Numero(((175, 100), (205, 100), (205, 150), (192, 150), (192, 117), (187, 117), (187, 127), (175, 127)), 
+                   ((173, 98), (208, 98), (208, 153), (190, 153), (190, 130), (173, 130)))
+#ocho = Numero()
+#nueve = Numero()
 
 
 def inicio():
@@ -26,14 +44,9 @@ def inicio():
 
 def dibuja_numero(num):
     if num == 0:
-        pygame.draw.rect(ventana, (0, 0, 0), (173, 98, 35, 55))
-        pygame.draw.rect(ventana, (255, 255, 255), (175, 100, 30, 50))
-        pygame.draw.rect(ventana, (0, 0, 0), (188, 110, 5, 30))
+        cero.dibujar()
     elif num == 1:
-        pygame.draw.rect(ventana, (0, 0, 0), (185, 98, 18, 55))
-        pygame.draw.rect(ventana, (0, 0, 0), (181, 98, 20, 20))
-        pygame.draw.rect(ventana, (255, 255, 255), (187, 100, 13, 50))
-        pygame.draw.rect(ventana, (255, 255, 255), (184, 100, 15, 15))
+        uno.dibujar()
     elif num == 2:
         pygame.draw.rect(ventana, (0, 0, 0), (173, 98, 35, 55))
         pygame.draw.rect(ventana, (255, 255, 255), (175, 100, 30, 50))
@@ -45,8 +58,7 @@ def dibuja_numero(num):
         pygame.draw.rect(ventana, (0, 0, 0), (173, 115, 20, 5))
         pygame.draw.rect(ventana, (0, 0, 0), (173, 132, 20, 5))
     elif num == 4:
-        pygame.draw.polygon(ventana, (0, 0, 0), ((173, 98), (208, 98), (208, 153), (190, 153), (190, 140), (173, 140)))
-        pygame.draw.polygon(ventana, (255, 255, 255), ((175, 100), (187, 100), (187, 120), (192, 120), (192, 100), (205, 100), (205, 150), (192, 150), (192, 137), (175, 137)))
+        cuatro.dibujar()
     elif num == 5:
         pygame.draw.rect(ventana, (0, 0, 0), (173, 98, 35, 55))
         pygame.draw.rect(ventana, (255, 255, 255), (175, 100, 30, 50))
@@ -58,8 +70,7 @@ def dibuja_numero(num):
         pygame.draw.rect(ventana, (0, 0, 0), (188, 115, 20, 5))
         pygame.draw.rect(ventana, (0, 0, 0), (187, 132, 5, 5))
     elif num == 7:
-        pygame.draw.polygon(ventana, (0, 0, 0), ((173, 98), (208, 98), (208, 153), (190, 153), (190, 130), (173, 130)))
-        pygame.draw.polygon(ventana, (255, 255, 255), ((175, 100), (205, 100), (205, 150), (192, 150), (192, 117), (187, 117), (187, 127), (175, 127)))
+        siete.dibujar()
     elif num == 8:
         pygame.draw.rect(ventana, (0, 0, 0), (173, 98, 35, 55))
         pygame.draw.rect(ventana, (255, 255, 255), (175, 100, 30, 50))
@@ -84,7 +95,7 @@ def mostrar_puntuacion(score):
 def main():
     global cont, puntuacion, choque, empieza, ave, piso, columna1, columna2, tubo1, tubo2, tubo3, tubo4
     pygame.init()
-    pygame.display.set_caption('Flappy Bird')
+    pygame.display.set_caption('Flappy Bird')    
     fondo = Item(ancho_ventana, alto_fondo, 'background')
     logo = Item(ancho_logo, 50, 'logo')
     logo.update(((ancho_ventana - ancho_logo) / 2, 100))
@@ -143,7 +154,8 @@ def main():
                 else:
                     ave.rota = False
                 if choque:
-                    if reinicio.posX < pygame.mouse.get_pos()[0] < reinicio.posX + reinicio.ancho and reinicio.posY < pygame.mouse.get_pos()[1] < reinicio.posY + reinicio.alto:
+                    if (reinicio.posX < pygame.mouse.get_pos()[0] < reinicio.posX + reinicio.ancho and
+                            reinicio.posY < pygame.mouse.get_pos()[1] < reinicio.posY + reinicio.alto):
                         inicio()
                 break
         pygame.display.update()
