@@ -4,12 +4,32 @@ import sys
 import pygame
 from pygame.locals import *
 
-ancho_logo, ancho_puntaje, ancho_reinicio, ancho_tubo, ancho_ventana = 200, 100, 150, 50, 360
-alto_fondo, alto_tubo, alto_tubo_min, alto_ventana = 450, 300, 50, 550
+ancho_logo, ancho_puntaje, ancho_reinicio, ancho_tubo, ancho_ventana = 200, 100, 150, 48, 384
+alto_fondo, alto_tubo, alto_tubo_min, alto_ventana = 425, 300, 50, 525
+COLOR_BLANCO, COLOR_NEGRO = (255, 255, 255), (0, 0, 0)
 distanciaX_tubos, distanciaY_tubos = (ancho_ventana - ancho_tubo) / 2, 100
 RUTA_PROYECTO = os.path.dirname(os.path.abspath(__file__))
-velocidad = 5  # 3
+velocidad = 4  # 5
 ventana = pygame.display.set_mode((ancho_ventana, alto_ventana))
+
+
+class ColumnaTubos(pygame.sprite.Group):
+    def __init__(self, separacion):
+        pygame.sprite.Group.__init__(self)
+        if separacion > 0:
+            self.posX = ancho_tubo + distanciaX_tubos + separacion
+        else:
+            self.posX = 2 * ancho_ventana  # ancho_ventana
+        self.posY = randint(alto_tubo_min + distanciaY_tubos, alto_fondo - alto_tubo_min)
+
+    def mover(self, separacion):
+        self.posX -= velocidad
+        if self.posX < -1 * ancho_tubo:
+            if separacion > 0:
+                self.posX = ancho_tubo + distanciaX_tubos + separacion
+            else:
+                self.posX = ancho_ventana
+            self.posY = randint(alto_tubo_min + distanciaY_tubos, alto_fondo - alto_tubo_min)
 
 
 class Item(pygame.sprite.Sprite):
@@ -30,16 +50,26 @@ class Item(pygame.sprite.Sprite):
         self.rect.top = self.posY
 
 
+class Numero():
+    def __init__(self, coordenadas_blanco, coordenadas_negro):
+        self.coordenadas_blanco = coordenadas_blanco
+        self.coordenadas_negro = coordenadas_negro
+
+    def dibujar(self):
+        pygame.draw.polygon(ventana, COLOR_NEGRO, self.coordenadas_negro)
+        pygame.draw.polygon(ventana, COLOR_BLANCO, self.coordenadas_blanco)
+
+
 class Ave(Item):
     def __init__(self):
-        Item.__init__(self, 40, 30, 'bird2')
-        self.angulo_inicial = 17.5
+        Item.__init__(self, 45, 33, 'bird2')
+        self.angulo_inicial = 22.5  # 17.5
         self.angulo_final = 270
         self.arriba = True
         self.eleva = False
         self.estado = 1
-        self.posX = ancho_ventana / 3
-        self.posY = 250
+        self.posX = ancho_ventana / 4 + 48  # + 16
+        self.posY = 225  # 250
         self.posY_inicial = self.posY
         self.rota = False
         self.tiempo_bajada = 0
@@ -72,10 +102,10 @@ class Ave(Item):
                     self.arriba = True
         else:
             if self.eleva:
-                self.posY -= 33
+                self.posY -= 35  # 33
                 self.eleva = False
             else:
-                self.tiempo_bajada += 1
+                self.tiempo_bajada += 0.75
                 self.posY += 0.25 * self.tiempo_bajada
         self.update((self.posX, self.posY))
         if self.estado % self.tiempo_aleteo == 0:
@@ -115,22 +145,3 @@ class Tubo(Item):
         Item.__init__(self, ancho_tubo, alto_tubo, 'pipe')
         if invertido:
             self.image = pygame.transform.flip(self.image, False, True)
-
-
-class ColumnaTubos(pygame.sprite.Group):
-    def __init__(self, separacion):
-        pygame.sprite.Group.__init__(self)
-        if separacion > 0:
-            self.posX = ancho_tubo + distanciaX_tubos + separacion
-        else:
-            self.posX = 2 * ancho_ventana  # ancho_ventana
-        self.posY = randint(alto_tubo_min + distanciaY_tubos, alto_fondo - alto_tubo_min)
-
-    def mover(self, separacion):
-        self.posX -= velocidad
-        if self.posX < -1 * ancho_tubo:
-            if separacion > 0:
-                self.posX = ancho_tubo + distanciaX_tubos + separacion
-            else:
-                self.posX = ancho_ventana
-            self.posY = randint(alto_tubo_min + distanciaY_tubos, alto_fondo - alto_tubo_min)
