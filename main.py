@@ -1,27 +1,9 @@
 #! /usr/bin/python
 
 __author__ = "Dj_System"
-__date__ = "$// :: $"
+__date__ = "$15/12/2016 23:11: $"
 
 from classes import *
-
-cero = Numero(((186, 80), (177, 80), (177, 130), (207, 130), (207, 80), (186, 80), (186, 122), (198, 122), 
-                  (198, 88), (186, 88)), 
-                  ((189, 77), (174, 77), (174, 133), (210, 133), (210, 77), (189, 77), (189, 119), (195, 119), 
-				       (195, 91), (189, 91)))
-uno = Numero(((184.5, 80), (184.5, 95), (189.5, 95), (189.5, 130), (199.5, 130), (199.5, 80)), 
-                 ((181.5, 77), (181.5, 98), (186.5, 95), (186.5, 133), (202.5, 133), (202.5, 77)))
-#dos = Numero()
-#tres = Numero()
-cuatro = Numero(((175, 100), (187, 100), (187, 120), (192, 120), (192, 100), (205, 100), (205, 150), (192, 150), 
-                    (192, 137), (175, 137)), 
-                    ((173, 98), (208, 98), (208, 153), (190, 153), (190, 140), (173, 140)))
-#cinco = Numero()
-#seis = Numero()
-siete = Numero(((175, 100), (205, 100), (205, 150), (192, 150), (192, 117), (187, 117), (187, 127), (175, 127)), 
-                   ((173, 98), (208, 98), (208, 153), (190, 153), (190, 130), (173, 130)))
-#ocho = Numero()
-#nueve = Numero()
 
 
 def inicio():
@@ -48,10 +30,13 @@ def dibuja_numero(num):
     elif num == 1:
         uno.dibujar()
     elif num == 2:
+        dos.dibujar()
+        """
         pygame.draw.rect(ventana, (0, 0, 0), (173, 98, 35, 55))
         pygame.draw.rect(ventana, (255, 255, 255), (175, 100, 30, 50))
         pygame.draw.rect(ventana, (0, 0, 0), (173, 115, 20, 5))
         pygame.draw.rect(ventana, (0, 0, 0), (188, 132, 20, 5))
+        """
     elif num == 3:
         pygame.draw.rect(ventana, (0, 0, 0), (173, 98, 35, 55))
         pygame.draw.rect(ventana, (255, 255, 255), (175, 100, 30, 50))
@@ -144,7 +129,7 @@ def main():
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
-            elif event.type == pygame.MOUSEBUTTONDOWN:
+            elif event.type == pygame.MOUSEBUTTONDOWN or (event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE):
                 ave.eleva = True
                 ave.tiempo_bajada = 0
                 cont += 1
