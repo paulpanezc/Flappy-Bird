@@ -154,7 +154,7 @@ class Piso(Item):
         self.posX = 2 * ancho_ventana
 
     def dibujar(self):
-        for i in range(1, self.posX / self.ancho + 2):
+        for i in range(1, self.posX // self.ancho + 2):
             self.rect.left, self.rect.top = self.posX - self.ancho * i, alto_fondo
             ventana.blit(self.image, self.rect)
 
