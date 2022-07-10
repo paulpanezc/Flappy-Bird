@@ -1,150 +1,82 @@
 #! /usr/bin/python
 
 __author__ = "Dj_System"
-__date__ = "$15/12/2016 23:11: $"
+__date__ = "$09/07/2022 19:53:00 $"
 
-from classes import *
-
-
-def inicio():
-    global cont, puntuacion, choque, empieza, ave, piso, columna1, columna2, tubo1, tubo2, tubo3, tubo4
-    cont = 0
-    puntuacion = 0
-    choque = False
-    empieza = False
-    ave = Ave()
-    piso = Piso()
-    columna1 = ColumnaTubos(0)
-    columna2 = ColumnaTubos(columna1.posX)
-    tubo1 = Tubo(False)
-    tubo2 = Tubo(True)
-    tubo3 = Tubo(False)
-    tubo4 = Tubo(True)
-    columna1.add(tubo1, tubo2)
-    columna2.add(tubo3, tubo4)
-
-
-def dibuja_numero(num):
-    if num == 0:
-        cero.dibujar()
-    elif num == 1:
-        uno.dibujar()
-    elif num == 2:
-        dos.dibujar()
-        """
-        pygame.draw.rect(ventana, (0, 0, 0), (173, 98, 35, 55))
-        pygame.draw.rect(ventana, (255, 255, 255), (175, 100, 30, 50))
-        pygame.draw.rect(ventana, (0, 0, 0), (173, 115, 20, 5))
-        pygame.draw.rect(ventana, (0, 0, 0), (188, 132, 20, 5))
-        """
-    elif num == 3:
-        pygame.draw.rect(ventana, (0, 0, 0), (173, 98, 35, 55))
-        pygame.draw.rect(ventana, (255, 255, 255), (175, 100, 30, 50))
-        pygame.draw.rect(ventana, (0, 0, 0), (173, 115, 20, 5))
-        pygame.draw.rect(ventana, (0, 0, 0), (173, 132, 20, 5))
-    elif num == 4:
-        cuatro.dibujar()
-    elif num == 5:
-        pygame.draw.rect(ventana, (0, 0, 0), (173, 98, 35, 55))
-        pygame.draw.rect(ventana, (255, 255, 255), (175, 100, 30, 50))
-        pygame.draw.rect(ventana, (0, 0, 0), (188, 115, 20, 5))
-        pygame.draw.rect(ventana, (0, 0, 0), (173, 132, 20, 5))
-    elif num == 6:
-        pygame.draw.rect(ventana, (0, 0, 0), (173, 98, 35, 55))
-        pygame.draw.rect(ventana, (255, 255, 255), (175, 100, 30, 50))
-        pygame.draw.rect(ventana, (0, 0, 0), (188, 115, 20, 5))
-        pygame.draw.rect(ventana, (0, 0, 0), (187, 132, 5, 5))
-    elif num == 7:
-        siete.dibujar()
-    elif num == 8:
-        pygame.draw.rect(ventana, (0, 0, 0), (173, 98, 35, 55))
-        pygame.draw.rect(ventana, (255, 255, 255), (175, 100, 30, 50))
-        pygame.draw.rect(ventana, (0, 0, 0), (187, 115, 5, 5))
-        pygame.draw.rect(ventana, (0, 0, 0), (187, 132, 5, 5))
-    elif num == 9:
-        pygame.draw.rect(ventana, (0, 0, 0), (173, 98, 35, 55))
-        pygame.draw.rect(ventana, (255, 255, 255), (175, 100, 30, 50))
-        pygame.draw.rect(ventana, (0, 0, 0), (187, 115, 5, 5))
-        pygame.draw.rect(ventana, (0, 0, 0), (173, 132, 20, 5))
-
-
-def mostrar_puntuacion(score):
-    if score > 0:
-        while score > 0:
-            dibuja_numero(score % 10)
-            score /= 10
-    else:
-        dibuja_numero(score)
+from pygame.locals import *
+from assets import *
+import sys
 
 
 def main():
-    global cont, puntuacion, choque, empieza, ave, piso, columna1, columna2, tubo1, tubo2, tubo3, tubo4
     pygame.init()
-    pygame.display.set_caption('Flappy Bird')    
-    fondo = Item(ancho_ventana, alto_fondo, 'background')
-    logo = Item(ancho_logo, 50, 'logo')
-    logo.update(((ancho_ventana - ancho_logo) / 2, 100))
-    puntaje = Item(ancho_puntaje, 150, 'score')
-    puntaje.update(((ancho_ventana - ancho_puntaje) / 2, 100))
-    reinicio = Item(ancho_reinicio, 50, 'restart')
-    reinicio.update(((ancho_ventana - ancho_reinicio) / 2, 275))
-    inicio()
+    pygame.display.set_caption('Flappy Bird')
+    background = Item(window_width, background_height, 'background')
+    logo = Item(logo_width, 50, 'logo')
+    logo.update(((window_width - logo_width) / 2, 100))
+    punctuation = Item(punctuation_width, 150, 'score')
+    punctuation.update(((window_width - punctuation_width) / 2, 100))
+    restart = Item(restart_width, 50, 'restart')
+    restart.update(((window_width - restart_width) / 2, 275))
+    flappy = Game()
     while True:
-        fondo.dibujar()
-        if not choque:
-            ave.volar(empieza)
-            piso.mover()
-        if not empieza:
-            logo.dibujar()
+        background.show()
+        if not flappy.collision:
+            flappy.bird.fly(flappy.starting)
+            flappy.ground.move()
+        if not flappy.starting:
+            logo.show()
         else:
-            tubo1.update((columna1.posX, columna1.posY))
-            tubo2.update((columna1.posX, columna1.posY - distanciaY_tubos - alto_tubo))
-            tubo3.update((columna2.posX, columna2.posY))
-            tubo4.update((columna2.posX, columna2.posY - distanciaY_tubos - alto_tubo))
-            columna1.draw(ventana)
-            columna2.draw(ventana)
-            if not choque:
-                columna1.mover(0)
-                columna2.mover(columna1.posX)
-                if columna1.posX + ancho_tubo == ave.posX or columna2.posX + ancho_tubo == ave.posX:
-                    puntuacion += 1
-                mostrar_puntuacion(puntuacion)
+            flappy.pipe1.update((flappy.column1.posX, flappy.column1.posY))
+            flappy.pipe2.update((flappy.column1.posX, flappy.column1.posY - pipe_distanceY - pipe_height))
+            flappy.pipe3.update((flappy.column2.posX, flappy.column2.posY))
+            flappy.pipe4.update((flappy.column2.posX, flappy.column2.posY - pipe_distanceY - pipe_height))
+            flappy.column1.draw(window)
+            flappy.column2.draw(window)
+            if not flappy.collision:
+                flappy.column1.move(0)
+                flappy.column2.move(flappy.column1.posX)
+                if flappy.column1.posX + pipe_width == flappy.bird.posX or \
+                        flappy.column2.posX + pipe_width == flappy.bird.posX:
+                    flappy.punctuation += 1
+                flappy.show_punctuation()
             else:
-                ave.detener()
-                puntaje.dibujar()
-                reinicio.dibujar()
-            piso.rect.left = ave.posX
-            for tubo in columna1.sprites():
-                if ave.rect.colliderect(tubo.rect):
-                    choque = True
+                flappy.bird.stop()
+                punctuation.show()
+                restart.show()
+            flappy.ground.rect.left = flappy.bird.posX
+            for pipe in flappy.column1.sprites():
+                if flappy.bird.rect.colliderect(pipe.rect):
+                    flappy.collision = True
                     break
-            for tubo in columna2.sprites():
-                if ave.rect.colliderect(tubo.rect):
-                    choque = True
+            for pipe in flappy.column2.sprites():
+                if flappy.bird.rect.colliderect(pipe.rect):
+                    flappy.collision = True
                     break
-            if ave.rect.colliderect(piso.rect):
-                choque = True
-        piso.dibujar()
+            if flappy.bird.rect.colliderect(flappy.ground.rect):
+                flappy.collision = True
+        flappy.ground.show()
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN or (event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE):
-                ave.eleva = True
-                ave.tiempo_bajada = 0
-                cont += 1
-                if cont == 1:
-                    ave.rota = True
-                    empieza = True
+                flappy.bird.flying = True
+                flappy.bird.down_time = 0
+                flappy.accumulator += 1
+                if flappy.accumulator == 1:
+                    flappy.bird.rotated = True
+                    flappy.starting = True
                 else:
-                    ave.rota = False
-                if choque:
-                    if (reinicio.posX < pygame.mouse.get_pos()[0] < reinicio.posX + reinicio.ancho and
-                            reinicio.posY < pygame.mouse.get_pos()[1] < reinicio.posY + reinicio.alto):
-                        inicio()
+                    flappy.bird.rotated = False
+                if flappy.collision:
+                    if restart.posX < pygame.mouse.get_pos()[0] < restart.posX + restart.width and \
+                            restart.posY < pygame.mouse.get_pos()[1] < restart.posY + restart.height:
+                        flappy = Game()
                 break
         pygame.display.update()
         pygame.time.Clock().tick(40)
+
 
 if __name__ == "__main__":
     main()

@@ -1,3 +1,3 @@
-This Flappy-Bird Project is based in flappybird.io and made in Python 2.7.x
+This Flappy-Bird Project is based in flappybird.io and made with Python 3.10.x and Pygame 2
 
-![alt tag](https://lh3.googleusercontent.com/-N1bNM6DTFD4/Vujpc2modyI/AAAAAAAAAUU/J5m5jPRYaHQ/w530-h298-n/capture.png)
+![alt tag](https://imgur.com/a/kBnHuq2)
